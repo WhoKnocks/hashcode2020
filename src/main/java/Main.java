@@ -79,39 +79,6 @@ public class Main {
         OutputBuilder.buildOutput("src/output/" + fileName, result);
     }
 
-    private static List<ScannedLibraryResult> getExampleResult() {
-        Book book0 = new Book(0);
-        Book book1 = new Book(1);
-        Book book2 = new Book(2);
-        Book book3 = new Book(3);
-        Book book4 = new Book(4);
-        Book book5 = new Book(5);
-
-        List<Book> books = new ArrayList<>();
-        books.set(book0.getId(), book0);
-        books.set(book1.getId(), book1);
-        books.set(book2.getId(), book2);
-        books.set(book3.getId(), book3);
-        books.set(book4.getId(), book4);
-        books.set(book5.getId(), book5);
-
-        Library lib0 = new Library(0, 1, 1, books);
-        Library lib1 = new Library(1, 1, 1, books);
-
-        lib1.scanBook(book5);
-        lib1.scanBook(book2);
-        lib1.scanBook(book3);
-        lib0.scanBook(book0);
-        lib0.scanBook(book1);
-        lib0.scanBook(book2);
-        lib0.scanBook(book3);
-        lib0.scanBook(book4);
-
-        return List.of(
-                new ScannedLibraryResult(lib1),
-                new ScannedLibraryResult(lib0));
-    }
-
     private static Libraries initLibraries(List<List<Integer>> lines, HashMap<Integer, Book> books) {
         Libraries libraries = new Libraries();
         for (int i = 0; i < lines.size(); i++) {
