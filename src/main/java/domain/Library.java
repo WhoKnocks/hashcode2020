@@ -30,7 +30,11 @@ public class Library {
         calcScorePerDay();
     }
 
-    public double calcScorePerDay() {
+    private void removeBook(Book book){
+        books.remove(book.getId(), book.getScore());
+    }
+
+    private double calcScorePerDay() {
         int score = 0;
         for (Book book : books.values()) {
             score += book.getScore();
