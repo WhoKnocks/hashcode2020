@@ -22,6 +22,7 @@ public class Main {
         List<List<Integer>> lines = IOUtil.getLines(fileName, " ", Integer::parseInt);
 
         int index = 0;
+        Integer DaysOfScanning = lines.get(0).get(2);
         lines.remove(0);
 
         HashMap<Integer, Book> books = new HashMap<>();
