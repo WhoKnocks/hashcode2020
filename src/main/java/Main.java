@@ -60,6 +60,8 @@ public class Main {
         currentLibrary.startSignUp(0);
 
         for (int currentDay = 0; currentDay < totalNumberOfDays; currentDay++) {
+            if (totalNumberOfDays < currentLibrary.getTimeToSignUp() || totalNumberOfDays < currentDay + currentLibrary.getTimeToSignUp()) continue;
+
             if (currentLibrary.isFinishedSigningUp(currentDay)) {
                 currentLibrary.startScanning();
                 startedLibraries.add(currentLibrary);
@@ -79,7 +81,7 @@ public class Main {
         }
         ArrayList<ScannedLibraryResult> result = new ArrayList<>();
 
-        startedLibraries.entries.stream().filter(x-> !x.getBooks().isEmpty()).forEach(x -> result.add(new ScannedLibraryResult(x)));
+        startedLibraries.entries.stream().filter(x-> !x.getScannedBooksList().isEmpty()).forEach(x -> result.add(new ScannedLibraryResult(x)));
 
         OutputBuilder.buildOutput("src/output/" + fileName, result);
     }
