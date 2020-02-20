@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Library {
+public class Library implements Comparable<Library> {
 
     private int id;
     private int timeToSignUp;
@@ -30,7 +30,7 @@ public class Library {
         calcScorePerDay();
     }
 
-    private void removeBook(Book book){
+    private void removeBook(Book book) {
         books.remove(book.getId(), book.getScore());
     }
 
@@ -108,5 +108,16 @@ public class Library {
         return "Library{" +
                 "books=" + books +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Library o) {
+        return Double.compare(scorePerDay, o.scorePerDay);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Library other = (Library) obj;
+        return id == other.id;
     }
 }

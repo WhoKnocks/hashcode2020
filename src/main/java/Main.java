@@ -1,7 +1,7 @@
 import domain.Book;
+import domain.Libraries;
 import domain.Library;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -30,16 +30,15 @@ public class Main {
         List<Integer> booksList = lines.get(0);
         IntStream.range(0, booksList.size()).forEachOrdered(i -> books.put(i, Book.create(i, booksList.get(i))));
 
-        ArrayList<Library> libraries = initLibraries(lines, books);
+        Libraries libraries = initLibraries(lines, books);
 
         OutputBuilder.buildOutput(fileName + ".out", null);
     }
 
 
-
-    private static ArrayList<Library> initLibraries(List<List<Integer>> lines, HashMap<Integer, Book> books) {
-        ArrayList<Library> libraries = new ArrayList<>();
-        for (int i = 1; i < lines.size();  i++) {
+    private static Libraries initLibraries(List<List<Integer>> lines, HashMap<Integer, Book> books) {
+        Libraries libraries = new Libraries();
+        for (int i = 1; i < lines.size(); i++) {
             List<Integer> libInfo = lines.get(i);
             i++;
             List<Integer> bookInfo = lines.get(i);
