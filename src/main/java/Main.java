@@ -3,10 +3,10 @@ import domain.Libraries;
 import domain.Library;
 import domain.ScannedLibraryResult;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Main {
@@ -52,7 +52,6 @@ public class Main {
         List<List<Integer>> lines = IOUtil.getLines("src/input/" + fileName, " ", Integer::parseInt);
 
         int index = 0;
-        Integer DaysOfScanning = lines.get(0).get(2);
         totalNumberOfDays = lines.get(0).get(2);
         lines.remove(0);
 
@@ -63,8 +62,33 @@ public class Main {
         lines.remove(0);
 
         Libraries libraries = initLibraries(lines, books);
+        int currentLibraryCounter = 0;
+        Library currentLibrary = libraries.get(currentLibraryCounter);
+        Libraries startedLibraries = new Libraries();
+        currentLibrary.startSignUp(0);
 
-        OutputBuilder.buildOutput("src/output/" + fileName, getExampleResult());
+        for (int currentDay = 0; currentDay < totalNumberOfDays; currentDay++) {
+            if (currentLibrary.isFinishedSigningUp(currentDay)) {
+                currentLibrary.startScanning();
+                startedLibraries.add(currentLibrary);
+                currentLibraryCounter++;
+                currentLibrary = libraries.get(currentLibraryCounter);
+                currentLibrary.startSignUp(currentDay);
+            }
+            for (Library library : libraries) {
+                if (library.isScanning() && !library.isFinishedScanning()) {
+                    ArrayList<Book> newlyScannedBooks = library.scanDay();
+                    for (Library library2 : libraries) {
+                        library2.deleteBooks(newlyScannedBooks);
+                    }
+                }
+            }
+        }
+        ArrayList<ScannedLibraryResult> result = new ArrayList<>();
+
+        startedLibraries.forEach(x-> result.add(new ScannedLibraryResult(x)));
+
+        OutputBuilder.buildOutput("src/output/" + fileName, result);
     }
 
     private static List<ScannedLibraryResult> getExampleResult() {
@@ -75,13 +99,13 @@ public class Main {
         Book book4 = new Book(4);
         Book book5 = new Book(5);
 
-        Map<Integer, Book> books = new HashMap<>();
-        books.put(book0.getId(), book0);
-        books.put(book1.getId(), book1);
-        books.put(book2.getId(), book2);
-        books.put(book3.getId(), book3);
-        books.put(book4.getId(), book4);
-        books.put(book5.getId(), book5);
+        List<Book> books = new ArrayList<>();
+        books.set(book0.getId(), book0);
+        books.set(book1.getId(), book1);
+        books.set(book2.getId(), book2);
+        books.set(book3.getId(), book3);
+        books.set(book4.getId(), book4);
+        books.set(book5.getId(), book5);
 
         Library lib0 = new Library(0, 1, 1, books);
         Library lib1 = new Library(1, 1, 1, books);

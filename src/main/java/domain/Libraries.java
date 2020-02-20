@@ -30,4 +30,12 @@ public class Libraries implements Iterable<Library> {
     public int size() {
         return entries.size();
     }
+
+    public Library getFirst(){
+        return entries.get(0);
+    }
+
+    public Library get(int i){
+        return entries.get(i);
+    }
 }

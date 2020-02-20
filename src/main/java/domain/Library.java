@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,13 @@ public class Library implements Comparable<Library> {
     private int timeToSignUp;
     private int booksPerDay;
     private double scorePerDay;
-    private Map<Integer, Book> books = new HashMap<>();
+    private int startDay;
+    private List<Book> books = new ArrayList<>();
 
     private Map<Integer, Book> scannedBooks = new HashMap<>();
     private List<Integer> scannedBooksList = new ArrayList<>();
+    private boolean isStartedScanning = false;
+    private boolean isFinished = false;
 
     public Library(int id, Integer timeToSignUp, int booksPerDay) {
         this.id = id;
@@ -22,7 +26,7 @@ public class Library implements Comparable<Library> {
         this.booksPerDay = booksPerDay;
     }
 
-    public Library(int id, int timeToSignUp, int booksPerDay, Map<Integer, Book> books) {
+    public Library(int id, int timeToSignUp, int booksPerDay, List<Book> books) {
         this.id = id;
         this.timeToSignUp = timeToSignUp;
         this.booksPerDay = booksPerDay;
@@ -30,12 +34,12 @@ public class Library implements Comparable<Library> {
     }
 
     private void removeBook(Book book) {
-        books.remove(book.getId(), book.getScore());
+        books.remove(book);
     }
 
     public double calcScorePerDay(boolean takeSignUpTimeIntoAccount, int totalDays) {
         int totScore = 0;
-        for (Book book : books.values()) {
+        for (Book book : books) {
             totScore += book.getScore();
         }
         totScore = totScore / books.size() * booksPerDay;
@@ -69,7 +73,7 @@ public class Library implements Comparable<Library> {
         this.booksPerDay = booksPerDay;
     }
 
-    public Map<Integer, Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
@@ -78,7 +82,7 @@ public class Library implements Comparable<Library> {
     }
 
     public void addBook(Book book) {
-        books.put(book.getId(), book);
+        books.add(book);
     }
 
     public Map<Integer, Book> getScannedBooks() {
@@ -88,17 +92,48 @@ public class Library implements Comparable<Library> {
     public void scanBook(Book book) {
         scannedBooks.put(book.getId(), book);
         scannedBooksList.add(book.getId());
+        book.setScanned(true);
+    }
+
+    public ArrayList<Book> scanDay(){
+        ArrayList<Book> scannedBooks = new ArrayList<Book>();
+        for (int i = 0; i < booksPerDay; i++) {
+            if(getBooks().isEmpty()) break;
+            List<Book> books = getBooks();
+            books.sort(Comparator.comparingInt(Book::getScore));
+            Book book = books.get(0);
+            scanBook(book);
+            scannedBooks.add(book);
+        }
+        if(getBooks().isEmpty()) setIsFinished();
+        return scannedBooks;
+    }
+
+    private void setIsFinished() {
+        setFinished(true);
     }
 
     public double getScorePerDay() {
         return scorePerDay;
     }
 
+    public int getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(int startDay) {
+        this.startDay = startDay;
+    }
+
+    public void startSignUp(int currentDay){
+        setStartDay(currentDay);
+    }
+
     public void setScorePerDay(double scorePerDay) {
         this.scorePerDay = scorePerDay;
     }
 
-    public void setBooks(Map<Integer, Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 
@@ -122,5 +157,31 @@ public class Library implements Comparable<Library> {
     public boolean equals(Object obj) {
         Library other = (Library) obj;
         return id == other.id;
+    }
+
+    public boolean isFinishedScanning() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
+    public boolean isFinishedSigningUp(int currentDay) {
+        return currentDay - getStartDay() > getTimeToSignUp();
+    }
+
+    public void startScanning() {
+        isStartedScanning = true;
+    }
+
+    public boolean isScanning() {
+        return isStartedScanning;
+    }
+
+    public void deleteBooks(ArrayList<Book> newlyScannedBooks) {
+        for (Book newlyScannedBook : newlyScannedBooks) {
+            getBooks().remove(newlyScannedBook);
+        }
     }
 }
