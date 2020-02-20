@@ -8,21 +8,25 @@ public class Library {
     private int id;
     private int timeToSignUp;
     private int booksPerDay;
-    private Map<Integer, Book> books = new HashMap<>();
+    private double scorePerDay;
+    private Map<Integer, Book> books;
 
     private Map<Integer, Book> scannedBooks = new HashMap<>();
-
-    public Library(int id, int timeToSignUp, int booksPerDay) {
-        this.id = id;
-        this.timeToSignUp = timeToSignUp;
-        this.booksPerDay = booksPerDay;
-    }
 
     public Library(int id, int timeToSignUp, int booksPerDay, Map<Integer, Book> books) {
         this.id = id;
         this.timeToSignUp = timeToSignUp;
         this.booksPerDay = booksPerDay;
         this.books = books;
+        calcScorePerDay();
+    }
+
+    private double calcScorePerDay() {
+        int score = 0;
+        for (Book book : books.values()) {
+            score += book.getScore();
+        }
+        return score / books.size();
     }
 
     public int getId() {
@@ -61,8 +65,24 @@ public class Library {
         return scannedBooks;
     }
 
-    public void scanBook(Book book){
+    public void scanBook(Book book) {
         scannedBooks.put(book.getId(), book);
+    }
+
+    public double getScorePerDay() {
+        return scorePerDay;
+    }
+
+    public void setScorePerDay(double scorePerDay) {
+        this.scorePerDay = scorePerDay;
+    }
+
+    public void setBooks(Map<Integer, Book> books) {
+        this.books = books;
+    }
+
+    public void setScannedBooks(Map<Integer, Book> scannedBooks) {
+        this.scannedBooks = scannedBooks;
     }
 
     @Override
