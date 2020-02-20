@@ -27,23 +27,26 @@ public class Library implements Comparable<Library> {
         this.timeToSignUp = timeToSignUp;
         this.booksPerDay = booksPerDay;
         this.books = books;
-        calcScorePerDay();
     }
 
     private void removeBook(Book book) {
         books.remove(book.getId(), book.getScore());
     }
 
-    public double calcScorePerDay() {
+    public double calcScorePerDay(boolean takeSignUpTimeIntoAccount, int totalDays) {
         int totScore = 0;
         for (Book book : books.values()) {
             totScore += book.getScore();
         }
-        return totScore / books.size() * booksPerDay;
+        totScore = totScore / books.size() * booksPerDay;
+        if(takeSignUpTimeIntoAccount){
+            totScore *= totalDays / (totalDays * timeToSignUp);
+        }
+        return totScore;
     }
-
     public int getId() {
         return id;
+
     }
 
     public void setId(int id) {

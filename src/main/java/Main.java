@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class Main {
+    private static int totalNumberOfDays;
 
 //    _          __________                              _,
 //    _.-(_)._     ."          ".      .--""--.          _.-{__}-._
@@ -39,6 +40,7 @@ public class Main {
 
         int index = 0;
         Integer DaysOfScanning = lines.get(0).get(2);
+        totalNumberOfDays = lines.get(0).get(2);
         lines.remove(0);
 
         HashMap<Integer, Book> books = new HashMap<>();
@@ -61,11 +63,16 @@ public class Main {
             Library library = new Library(libraries.size(), libInfo.get(1), libInfo.get(2));
             libraries.add(library);
             bookInfo.forEach(x -> library.addBook(books.get(x)));
-            library.calcScorePerDay();
+            library.calcScorePerDay(false, getTotalNumberOfDays());
         }
         return libraries;
     }
 
+    public static int getTotalNumberOfDays() {
+        return totalNumberOfDays;
+    }
 
-
+    public static void setTotalNumberOfDays(int totalNumberOfDays) {
+        Main.totalNumberOfDays = totalNumberOfDays;
+    }
 }
