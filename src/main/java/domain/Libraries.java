@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Libraries implements Iterable<Library> {
 
-    private List<Library> entries;
+    public List<Library> entries;
 
     public Libraries() {
         this.entries = new ArrayList<>();
