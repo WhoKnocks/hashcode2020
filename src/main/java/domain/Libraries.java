@@ -24,18 +24,23 @@ public class Libraries implements Iterable<Library> {
 
     @Override
     public Iterator<Library> iterator() {
-        return entries.iterator();
+        return getEntries().iterator();
     }
 
     public int size() {
-        return entries.size();
+        return getEntries().size();
     }
 
     public Library getFirst(){
-        return entries.get(0);
+        return getEntries().get(0);
     }
 
     public Library get(int i){
         return getEntries().get(i);
     }
+
+    public void remove(int i) {
+        getEntries().remove(i);
+    }
+
 }
