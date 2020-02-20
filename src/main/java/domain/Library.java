@@ -11,7 +11,7 @@ public class Library {
     private int timeToSignUp;
     private int booksPerDay;
     private double scorePerDay;
-    private Map<Integer, Book> books;
+    private Map<Integer, Book> books = new HashMap<>();
 
     private Map<Integer, Book> scannedBooks = new HashMap<>();
     private List<Integer> scannedBooksList = new ArrayList<>();
@@ -35,11 +35,11 @@ public class Library {
     }
 
     private double calcScorePerDay() {
-        int score = 0;
+        int totScore = 0;
         for (Book book : books.values()) {
-            score += book.getScore();
+            totScore += book.getScore();
         }
-        return score / books.size();
+        return totScore / books.size() * booksPerDay;
     }
 
     public int getId() {
