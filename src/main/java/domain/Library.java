@@ -13,6 +13,14 @@ public class Library {
 
     private Map<Integer, Book> scannedBooks = new HashMap<>();
 
+    public Library(int id, int timeToSignUp, int booksPerDay) {
+        this.id = id;
+        this.timeToSignUp = timeToSignUp;
+        this.booksPerDay = booksPerDay;
+        this.books = books;
+        calcScorePerDay();
+    }
+
     public Library(int id, int timeToSignUp, int booksPerDay, Map<Integer, Book> books) {
         this.id = id;
         this.timeToSignUp = timeToSignUp;
@@ -21,7 +29,7 @@ public class Library {
         calcScorePerDay();
     }
 
-    private double calcScorePerDay() {
+    public double calcScorePerDay() {
         int score = 0;
         for (Book book : books.values()) {
             score += book.getScore();
