@@ -5,12 +5,17 @@ import domain.ScannedLibraryResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 public class Main {
 
+
+    private static int totalNumberOfDays;
+    private static Map<Book, List<Library>> booksInLibrary = new HashMap<>();
 
     public static void main(String[] args) {
         System.out.println("Reading a");
@@ -31,9 +36,6 @@ public class Main {
         System.out.println("barts mom");
         System.out.println("is a milf!");
     }
-
-    private static int totalNumberOfDays;
-    private static Map<Book, List<Library>> booksInLibrary = new HashMap<>();
 
     public static void run(String fileName) {
         List<List<Integer>> lines = IOUtil.getLines("src/input/" + fileName, " ", Integer::parseInt);
@@ -120,7 +122,7 @@ public class Main {
             }
             List<Integer> libInfo = lines.get(i);
             i++;
-            List<Integer> bookInfo = lines.get(i);
+            Set<Integer> bookInfo = new HashSet<>(lines.get(i));
             Library library = new Library(libraries.size(), libInfo.get(1), libInfo.get(2));
             libraries.add(library);
             bookInfo.forEach(x -> {
