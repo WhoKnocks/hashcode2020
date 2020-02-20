@@ -15,7 +15,6 @@ public class Library implements Comparable<Library> {
     private int startDay;
     private List<Book> books = new ArrayList<>();
 
-    private Map<Integer, Book> scannedBooks = new HashMap<>();
     private List<Integer> scannedBooksList = new ArrayList<>();
     private boolean isStartedScanning = false;
     private boolean isFinished = false;
@@ -86,12 +85,8 @@ public class Library implements Comparable<Library> {
         books.add(book);
     }
 
-    public Map<Integer, Book> getScannedBooks() {
-        return scannedBooks;
-    }
 
     public void scanBook(Book book) {
-        scannedBooks.put(book.getId(), book);
         scannedBooksList.add(book.getId());
         book.setScanned(true);
     }
@@ -136,10 +131,6 @@ public class Library implements Comparable<Library> {
 
     public void setBooks(List<Book> books) {
         this.books = books;
-    }
-
-    public void setScannedBooks(Map<Integer, Book> scannedBooks) {
-        this.scannedBooks = scannedBooks;
     }
 
     @Override

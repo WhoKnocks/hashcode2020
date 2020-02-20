@@ -24,7 +24,7 @@ public class ScannedLibraryResult {
 
     //line 1: libraryId #books
     public String getLineOne() {
-        return library.getId() + " " + library.getScannedBooks().size();
+        return library.getId() + " " + library.getScannedBooksList().size();
     }
 
     //line 2: firstScannedBookId secondScannedBookId ...
