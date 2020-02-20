@@ -1,6 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Library {
@@ -12,6 +14,7 @@ public class Library {
     private Map<Integer, Book> books;
 
     private Map<Integer, Book> scannedBooks = new HashMap<>();
+    private List<Integer> scannedBooksList = new ArrayList<>();
 
     public Library(int id, int timeToSignUp, int booksPerDay, Map<Integer, Book> books) {
         this.id = id;
@@ -57,6 +60,10 @@ public class Library {
         return books;
     }
 
+    public List<Integer> getScannedBooksList() {
+        return scannedBooksList;
+    }
+
     public void addBook(Book book) {
         books.put(book.getId(), book);
     }
@@ -67,6 +74,7 @@ public class Library {
 
     public void scanBook(Book book) {
         scannedBooks.put(book.getId(), book);
+        scannedBooksList.add(book.getId());
     }
 
     public double getScorePerDay() {
