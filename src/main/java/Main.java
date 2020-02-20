@@ -2,6 +2,7 @@ import domain.Book;
 import domain.Libraries;
 import domain.Library;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -26,13 +27,23 @@ public class Main {
 
 
     public static void main(String[] args) {
+        System.out.println("Reading a");
         run("src/input/a_example.txt");
-//        run("src/input/b_read_on.txt");
-//        run("src/input/c_incunabula.txt");
-//        run("src/input/d_tough_choices.txt");
-//        run("src/input/e_so_many_books.txt");
-//        System.out.println("barts mom");
-//        System.out.println("is a milf!");
+
+        System.out.println("Reading b");
+        run("src/input/b_read_on.txt");
+
+        System.out.println("Reading c");
+        run("src/input/c_incunabula.txt");
+
+        System.out.println("Reading d");
+        run("src/input/d_tough_choices.txt");
+
+        System.out.println("Reading e");
+        run("src/input/e_so_many_books.txt");
+
+        System.out.println("barts mom");
+        System.out.println("is a milf!");
     }
 
     public static void run(String fileName) {
@@ -47,16 +58,21 @@ public class Main {
 
         List<Integer> booksList = lines.get(0);
         IntStream.range(0, booksList.size()).forEachOrdered(i -> books.put(i, Book.create(i, booksList.get(i))));
+        lines.remove(0);
 
         Libraries libraries = initLibraries(lines, books);
 
-        OutputBuilder.buildOutput(fileName + ".out", null);
+//        OutputBuilder.buildOutput(fileName + ".out", null);
     }
+
 
 
     private static Libraries initLibraries(List<List<Integer>> lines, HashMap<Integer, Book> books) {
         Libraries libraries = new Libraries();
-        for (int i = 1; i < lines.size(); i++) {
+        for (int i = 0; i < lines.size();  i++) {
+            if(lines.get(i).isEmpty()){
+                break;
+            }
             List<Integer> libInfo = lines.get(i);
             i++;
             List<Integer> bookInfo = lines.get(i);

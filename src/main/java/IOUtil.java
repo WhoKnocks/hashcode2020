@@ -11,6 +11,7 @@ public class IOUtil {
             List<String> lines = Files.readAllLines(new File(file).toPath());
 
             return lines.stream().map(line -> Arrays.stream(line.split(lineSplitter))
+                    .filter(x -> !x.equalsIgnoreCase(""))
                     .map(parseFunction)
                     .collect(Collectors.toList()))
                     .collect(Collectors.toList());
