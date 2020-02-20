@@ -3,29 +3,13 @@ import domain.Libraries;
 import domain.Library;
 import domain.ScannedLibraryResult;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Main {
-    private static int totalNumberOfDays;
-
-//    _          __________                              _,
-//    _.-(_)._     ."          ".      .--""--.          _.-{__}-._
-//            .'________'.   | .--------. |    .'        '.      .:-'`____`'-:.
-//            [____________] /` |________| `\  /   .'``'.   \    /_.-"`_  _`"-._\
-//            /  / .\/. \  \|  / / .\/. \ \  ||  .'/.\/.\'.  |  /`   / .\/. \   `\
-//            |  \__/\__/  |\_/  \__/\__/  \_/|  : |_/\_| ;  |  |    \__/\__/    |
-//            \            /  \            /   \ '.\    /.' / .-\                /-.
-//            /'._  --  _.'\  /'._  --  _.'\   /'. `'--'` .'\/   '._-.__--__.-_.'   \
-//            /_   `""""`   _\/_   `""""`   _\ /_  `-./\.-'  _\'.    `""""""""`    .'`\
-//            (__/    '|    \ _)_|           |_)_/            \__)|        '       |   |
-//            |_____'|_____|   \__________/   |              |;`_________'________`;-'
-//    jgs'----------'    '----------'   '--------------'`--------------------`
-//
-
 
 
     public static void main(String[] args) {
@@ -47,6 +31,9 @@ public class Main {
         System.out.println("barts mom");
         System.out.println("is a milf!");
     }
+
+    private static int totalNumberOfDays;
+    private static Map<Book, List<Library>> booksInLibrary = new HashMap<>();
 
     public static void run(String fileName) {
         List<List<Integer>> lines = IOUtil.getLines("src/input/" + fileName, " ", Integer::parseInt);
@@ -78,15 +65,16 @@ public class Main {
             for (Library library : libraries) {
                 if (library.isScanning() && !library.isFinishedScanning()) {
                     ArrayList<Book> newlyScannedBooks = library.scanDay();
-                    for (Library library2 : libraries) {
-                        library2.deleteBooks(newlyScannedBooks);
+                    for (Book newlyScannedBook : newlyScannedBooks) {
+                        List<Library> libHasBook = booksInLibrary.get(newlyScannedBook);
+                        libHasBook.forEach(l -> l.deleteBook(newlyScannedBook));
                     }
                 }
             }
         }
         ArrayList<ScannedLibraryResult> result = new ArrayList<>();
 
-        startedLibraries.forEach(x-> result.add(new ScannedLibraryResult(x)));
+        startedLibraries.forEach(x -> result.add(new ScannedLibraryResult(x)));
 
         OutputBuilder.buildOutput("src/output/" + fileName, result);
     }
@@ -126,8 +114,8 @@ public class Main {
 
     private static Libraries initLibraries(List<List<Integer>> lines, HashMap<Integer, Book> books) {
         Libraries libraries = new Libraries();
-        for (int i = 0; i < lines.size();  i++) {
-            if(lines.get(i).isEmpty()){
+        for (int i = 0; i < lines.size(); i++) {
+            if (lines.get(i).isEmpty()) {
                 break;
             }
             List<Integer> libInfo = lines.get(i);
@@ -135,7 +123,11 @@ public class Main {
             List<Integer> bookInfo = lines.get(i);
             Library library = new Library(libraries.size(), libInfo.get(1), libInfo.get(2));
             libraries.add(library);
-            bookInfo.forEach(x -> library.addBook(books.get(x)));
+            bookInfo.forEach(x -> {
+                Book book = books.get(x);
+                library.addBook(books.get(x));
+                booksInLibrary.computeIfAbsent(book, b -> new ArrayList<Library>()).add(library);
+            });
             library.calcScorePerDay(false, getTotalNumberOfDays());
         }
         return libraries;

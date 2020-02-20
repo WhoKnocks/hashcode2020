@@ -43,11 +43,12 @@ public class Library implements Comparable<Library> {
             totScore += book.getScore();
         }
         totScore = totScore / books.size() * booksPerDay;
-        if(takeSignUpTimeIntoAccount){
+        if (takeSignUpTimeIntoAccount) {
             totScore *= totalDays / (totalDays * timeToSignUp);
         }
         return totScore;
     }
+
     public int getId() {
         return id;
 
@@ -95,17 +96,17 @@ public class Library implements Comparable<Library> {
         book.setScanned(true);
     }
 
-    public ArrayList<Book> scanDay(){
+    public ArrayList<Book> scanDay() {
         ArrayList<Book> scannedBooks = new ArrayList<Book>();
         for (int i = 0; i < booksPerDay; i++) {
-            if(getBooks().isEmpty()) break;
+            if (getBooks().isEmpty()) break;
             List<Book> books = getBooks();
             books.sort(Comparator.comparingInt(Book::getScore));
             Book book = books.get(0);
             scanBook(book);
             scannedBooks.add(book);
         }
-        if(getBooks().isEmpty()) setIsFinished();
+        if (getBooks().isEmpty()) setIsFinished();
         return scannedBooks;
     }
 
@@ -125,7 +126,7 @@ public class Library implements Comparable<Library> {
         this.startDay = startDay;
     }
 
-    public void startSignUp(int currentDay){
+    public void startSignUp(int currentDay) {
         setStartDay(currentDay);
     }
 
@@ -179,9 +180,8 @@ public class Library implements Comparable<Library> {
         return isStartedScanning;
     }
 
-    public void deleteBooks(ArrayList<Book> newlyScannedBooks) {
-        for (Book newlyScannedBook : newlyScannedBooks) {
-            getBooks().remove(newlyScannedBook);
-        }
+    public void deleteBook(Book book) {
+        getBooks().remove(book);
+
     }
 }
