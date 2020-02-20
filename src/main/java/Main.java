@@ -30,6 +30,14 @@ public class Main {
         List<Integer> booksList = lines.get(0);
         IntStream.range(0, booksList.size()).forEachOrdered(i -> books.put(i, Book.create(i, booksList.get(i))));
 
+        ArrayList<Library> libraries = initLibraries(lines, books);
+
+        OutputBuilder.buildOutput(fileName + ".out", null);
+    }
+
+
+
+    private static ArrayList<Library> initLibraries(List<List<Integer>> lines, HashMap<Integer, Book> books) {
         ArrayList<Library> libraries = new ArrayList<>();
         for (int i = 1; i < lines.size();  i++) {
             List<Integer> libInfo = lines.get(i);
@@ -40,8 +48,6 @@ public class Main {
             bookInfo.forEach(x -> library.addBook(books.get(x)));
             library.calcScorePerDay();
         }
-
-
-        OutputBuilder.buildOutput(fileName + ".out", null);
+        return libraries;
     }
 }
