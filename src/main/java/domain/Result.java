@@ -18,7 +18,7 @@ public class Result {
         return libraryResults;
     }
 
-    public void setRLibraryResults(List<ScannedLibraryresult> libraryResults) {
+    public void setLibraryResults(List<ScannedLibraryresult> libraryResults) {
         this.libraryResults = libraryResults;
     }
 
@@ -28,8 +28,10 @@ public class Result {
     }
 
     //other lines
-    public void getOtherLines(){
-        //over libraryResults loopen en getLineOne en getLineTwo
+    public List<String> getOtherLines(){
+        return libraryResults.stream()
+                .flatMap(scannedLibraryresult -> scannedLibraryresult.getResult().stream())
+                .collect(Collectors.toList());
     }
 }
 
@@ -51,13 +53,19 @@ class ScannedLibraryresult {
         this.library = library;
     }
 
-    //line 1: id #books
+    //line 1: libraryId #books
     public String getLineOne() {
         return library.getId() + " " + library.getScannedBooks().size();
     }
 
-    //line 2
+    //line 2: firstScannedBookId secondScannedBookId ...
     public String getLineTwo() {
-        return library.getScannedBooksList().stream().map(String::valueOf).collect(Collectors.joining(" "));
+        return library.getScannedBooksList().stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(" "));
+    }
+
+    public List<String> getResult(){
+        return List.of(getLineOne(), getLineTwo());
     }
 }
