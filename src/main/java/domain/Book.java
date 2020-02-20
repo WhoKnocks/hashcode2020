@@ -14,6 +14,10 @@ public class Book {
         this.score = score;
     }
 
+    public static Book create(int i, Integer score) {
+        return new Book(i, score);
+    }
+
     public int getId() {
         return id;
     }

@@ -12,7 +12,7 @@ public class Library {
 
     private Map<Integer, Book> scannedBooks = new HashMap<>();
 
-    public Library(int id, int timeToSignUp, int booksPerDay) {
+    public Library(int id, Integer timeToSignUp, int booksPerDay) {
         this.id = id;
         this.timeToSignUp = timeToSignUp;
         this.booksPerDay = booksPerDay;

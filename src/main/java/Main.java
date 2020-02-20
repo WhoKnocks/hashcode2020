@@ -1,4 +1,10 @@
+import domain.Book;
+import domain.Library;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Main {
 
@@ -10,6 +16,24 @@ public class Main {
 
     public static void run(String fileName) {
         List<List<Integer>> lines = IOUtil.getLines(fileName, " ", Integer::parseInt);
+
+        int index = 0;
+        lines.remove(0);
+
+        HashMap<Integer, Book> books = new HashMap<>();
+
+        List<Integer> booksList = lines.get(0);
+        IntStream.range(0, booksList.size()).forEachOrdered(i -> books.put(i, Book.create(i, booksList.get(i))));
+
+        ArrayList<Library> libraries = new ArrayList<>();
+        for (int i = 1; i < lines.size();  i++) {
+            List<Integer> libInfo = lines.get(i);
+            i++;
+            List<Integer> bookInfo = lines.get(i);
+            Library library = new Library(libraries.size(), libInfo.get(1), libInfo.get(2));
+            libraries.add(library);
+            bookInfo.forEach(x -> library.addBook(books.get(x)));
+        }
 
 
         OutputBuilder.buildOutput(fileName + ".out", null);
