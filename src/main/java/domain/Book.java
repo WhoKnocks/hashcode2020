@@ -4,6 +4,7 @@ public class Book {
 
     private int id;
     private int score;
+    private boolean isScanned;
 
     public Book(int id) {
         this.id = id;
@@ -32,6 +33,14 @@ public class Book {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public boolean isScanned() {
+        return isScanned;
+    }
+
+    public void setScanned(boolean scanned) {
+        isScanned = scanned;
     }
 
     @Override
