@@ -89,13 +89,13 @@ public class Library implements Comparable<Library> {
     public void scanBook(Book book) {
         scannedBooksList.add(book.getId());
         book.setScanned(true);
+        books.remove(book);
     }
 
     public ArrayList<Book> scanDay() {
         ArrayList<Book> scannedBooks = new ArrayList<Book>();
         for (int i = 0; i < booksPerDay; i++) {
             if (getBooks().isEmpty()) break;
-            List<Book> books = getBooks();
             books.sort(Comparator.comparingInt(Book::getScore));
             Book book = books.get(0);
             scanBook(book);
