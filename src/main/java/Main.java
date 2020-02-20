@@ -4,7 +4,11 @@ public class Main {
 
     public static void main(String[] args) {
         run("src/input/a_example.txt");
-        System.out.println("bens mom");
+        run("src/input/b_read_on.txt");
+        run("src/input/c_incunabula.txt");
+        run("src/input/d_tough_choices.txt");
+        run("src/input/e_so_many_books.txt");
+        System.out.println("barts mom");
         System.out.println("is a milf!");
     }
 
