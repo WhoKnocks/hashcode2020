@@ -13,19 +13,19 @@ public class Main {
     private static Map<Book, List<Library>> booksInLibrary = new HashMap<>();
 
     public static void main(String[] args) {
-//        System.out.println("Reading a");
-//        run("a_example.txt");
-//
-//        System.out.println("Reading b");
-//        run("b_read_on.txt");
-//
-//        System.out.println("Reading c");
-//        run("c_incunabula.txt");
-//
-//        System.out.println("Reading d");
-//        run("d_tough_choices.txt");
-//
-//        System.out.println("Reading e");
+        System.out.println("Reading a");
+        run("a_example.txt");
+
+        System.out.println("Reading b");
+        run("b_read_on.txt");
+
+        System.out.println("Reading c");
+        run("c_incunabula.txt");
+
+        System.out.println("Reading d");
+        run("d_tough_choices.txt");
+
+        System.out.println("Reading e");
         run("e_so_many_books.txt");
 
         System.out.println("Reading f");
