@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -8,14 +8,12 @@ import java.util.stream.Collectors;
 public class IOUtil {
     public static <T> List<List<T>> getLines(String file, String lineSplitter, Function<String, T> parseFunction) {
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(IOUtil.class.getResourceAsStream(file)));
-            String line;
-            List<List<T>> ret = new ArrayList<>();
-            while ((line = br.readLine()) != null) {
-                ret.add(Arrays.stream(line.split(lineSplitter)).map(parseFunction).collect(Collectors.toList()));
-            }
-            br.close();
-            return ret;
+            List<String> lines = Files.readAllLines(new File(file).toPath());
+
+            return lines.stream().map(line -> Arrays.stream(line.split(lineSplitter))
+                    .map(parseFunction)
+                    .collect(Collectors.toList()))
+                    .collect(Collectors.toList());
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read file " + file, ex);
         }
