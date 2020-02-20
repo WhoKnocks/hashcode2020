@@ -1,10 +1,12 @@
 import domain.Book;
 import domain.Libraries;
 import domain.Library;
+import domain.ScannedLibraryResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Main {
@@ -47,7 +49,7 @@ public class Main {
     }
 
     public static void run(String fileName) {
-        List<List<Integer>> lines = IOUtil.getLines(fileName, " ", Integer::parseInt);
+        List<List<Integer>> lines = IOUtil.getLines("src/input/" + fileName, " ", Integer::parseInt);
 
         int index = 0;
         Integer DaysOfScanning = lines.get(0).get(2);
@@ -62,10 +64,41 @@ public class Main {
 
         Libraries libraries = initLibraries(lines, books);
 
-//        OutputBuilder.buildOutput(fileName + ".out", null);
+        OutputBuilder.buildOutput("src/output/" + fileName, getExampleResult());
     }
 
+    private static List<ScannedLibraryResult> getExampleResult() {
+        Book book0 = new Book(0);
+        Book book1 = new Book(1);
+        Book book2 = new Book(2);
+        Book book3 = new Book(3);
+        Book book4 = new Book(4);
+        Book book5 = new Book(5);
 
+        Map<Integer, Book> books = new HashMap<>();
+        books.put(book0.getId(), book0);
+        books.put(book1.getId(), book1);
+        books.put(book2.getId(), book2);
+        books.put(book3.getId(), book3);
+        books.put(book4.getId(), book4);
+        books.put(book5.getId(), book5);
+
+        Library lib0 = new Library(0, 1, 1, books);
+        Library lib1 = new Library(1, 1, 1, books);
+
+        lib1.scanBook(book5);
+        lib1.scanBook(book2);
+        lib1.scanBook(book3);
+        lib0.scanBook(book0);
+        lib0.scanBook(book1);
+        lib0.scanBook(book2);
+        lib0.scanBook(book3);
+        lib0.scanBook(book4);
+
+        return List.of(
+                new ScannedLibraryResult(lib1),
+                new ScannedLibraryResult(lib0));
+    }
 
     private static Libraries initLibraries(List<List<Integer>> lines, HashMap<Integer, Book> books) {
         Libraries libraries = new Libraries();
@@ -92,3 +125,4 @@ public class Main {
         Main.totalNumberOfDays = totalNumberOfDays;
     }
 }
+
