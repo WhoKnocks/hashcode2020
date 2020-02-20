@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         run("a_example");
-        System.out.println("a done");
+        System.out.println("bens mom");
     }
 
     public static void run(String fileName) {
