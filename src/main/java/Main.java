@@ -37,6 +37,7 @@ public class Main {
             Library library = new Library(libraries.size(), libInfo.get(1), libInfo.get(2));
             libraries.add(library);
             bookInfo.forEach(x -> library.addBook(books.get(x)));
+            library.calcScorePerDay();
         }
 
 
