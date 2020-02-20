@@ -74,7 +74,7 @@ public class Main {
         }
         ArrayList<ScannedLibraryResult> result = new ArrayList<>();
 
-        startedLibraries.forEach(x -> result.add(new ScannedLibraryResult(x)));
+        startedLibraries.entries.stream().filter(x-> !x.getBooks().isEmpty()).forEach(x -> result.add(new ScannedLibraryResult(x)));
 
         OutputBuilder.buildOutput("src/output/" + fileName, result);
     }

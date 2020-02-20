@@ -152,7 +152,7 @@ public class Library implements Comparable<Library> {
     }
 
     public boolean isFinishedScanning() {
-        return isFinished;
+        return isFinished || books.isEmpty();
     }
 
     public void setFinished(boolean finished) {

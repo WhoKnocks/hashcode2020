@@ -36,6 +36,6 @@ public class Libraries implements Iterable<Library> {
     }
 
     public Library get(int i){
-        return entries.get(i);
+        return getEntries().get(i);
     }
 }
