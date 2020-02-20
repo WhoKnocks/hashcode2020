@@ -11,7 +11,7 @@ public class Library {
     private int timeToSignUp;
     private int booksPerDay;
     private double scorePerDay;
-    private Map<Integer, Book> books;
+    private Map<Integer, Book> books = new HashMap<>();
 
     private Map<Integer, Book> scannedBooks = new HashMap<>();
     private List<Integer> scannedBooksList = new ArrayList<>();
