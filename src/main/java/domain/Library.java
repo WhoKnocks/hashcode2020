@@ -31,11 +31,11 @@ public class Library {
     }
 
     public double calcScorePerDay() {
-        int score = 0;
+        double totScore = 0;
         for (Book book : books.values()) {
-            score += book.getScore();
+            totScore += book.getScore();
         }
-        return score / books.size();
+        return totScore / books.size() * booksPerDay;
     }
 
     public int getId() {
