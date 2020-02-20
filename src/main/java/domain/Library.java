@@ -20,8 +20,6 @@ public class Library {
         this.id = id;
         this.timeToSignUp = timeToSignUp;
         this.booksPerDay = booksPerDay;
-        this.books = books;
-        calcScorePerDay();
     }
 
     public Library(int id, int timeToSignUp, int booksPerDay, Map<Integer, Book> books) {
