@@ -3,12 +3,7 @@ import domain.Libraries;
 import domain.Library;
 import domain.ScannedLibraryResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
@@ -18,19 +13,19 @@ public class Main {
     private static Map<Book, List<Library>> booksInLibrary = new HashMap<>();
 
     public static void main(String[] args) {
-        System.out.println("Reading a");
-        run("a_example.txt");
-
-        System.out.println("Reading b");
-        run("b_read_on.txt");
-
-        System.out.println("Reading c");
-        run("c_incunabula.txt");
-
-        System.out.println("Reading d");
-        run("d_tough_choices.txt");
-
-        System.out.println("Reading e");
+//        System.out.println("Reading a");
+//        run("a_example.txt");
+//
+//        System.out.println("Reading b");
+//        run("b_read_on.txt");
+//
+//        System.out.println("Reading c");
+//        run("c_incunabula.txt");
+//
+//        System.out.println("Reading d");
+//        run("d_tough_choices.txt");
+//
+//        System.out.println("Reading e");
         run("e_so_many_books.txt");
 
         System.out.println("Reading f");
@@ -79,7 +74,7 @@ public class Main {
         }
         ArrayList<ScannedLibraryResult> result = new ArrayList<>();
 
-        startedLibraries.forEach(x -> result.add(new ScannedLibraryResult(x)));
+        startedLibraries.entries.stream().filter(x -> !x.getBooks().isEmpty()).forEach(x -> result.add(new ScannedLibraryResult(x)));
 
         OutputBuilder.buildOutput("src/output/" + fileName, result);
     }
