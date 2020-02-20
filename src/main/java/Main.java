@@ -5,6 +5,7 @@ import domain.ScannedLibraryResult;
 
 import java.util.*;
 import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
 
 public class Main {
 
@@ -48,7 +49,11 @@ public class Main {
         IntStream.range(0, booksList.size()).forEachOrdered(i -> books.put(i, Book.create(i, booksList.get(i))));
         lines.remove(0);
 
-        Libraries libraries = initLibraries(lines, books);
+        Libraries libraries = new Libraries();
+        StreamSupport.stream(initLibraries(lines, books).spliterator(), false)
+                .filter(library -> library.getTimeToSignUp() < totalNumberOfDays)
+                .forEach(libraries::add);
+
         int currentLibraryCounter = 0;
         Library currentLibrary = libraries.get(currentLibraryCounter);
         Libraries startedLibraries = new Libraries();
