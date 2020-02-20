@@ -36,16 +36,16 @@ public class Library implements Comparable<Library> {
         books.remove(book);
     }
 
-    public double calcScorePerDay(boolean takeSignUpTimeIntoAccount, int totalDays) {
+    public void calcScorePerDay(int averageTimeToSignUp) {
         int totScore = 0;
+        double timeToSignUpComparedToAvg;
+        if(averageTimeToSignUp == 0 || timeToSignUp == 0) timeToSignUpComparedToAvg = 1;
+        else timeToSignUpComparedToAvg = (double) timeToSignUp / averageTimeToSignUp;
         for (Book book : books) {
-            totScore += book.getScore();
+            totScore += book.getScore() / timeToSignUpComparedToAvg;
         }
-        totScore = totScore / books.size() * booksPerDay;
-        if (takeSignUpTimeIntoAccount) {
-            totScore *= totalDays / (totalDays * timeToSignUp);
-        }
-        return totScore;
+        totScore = totScore * booksPerDay;
+        setScorePerDay(totScore);
     }
 
     public int getId() {
@@ -84,7 +84,6 @@ public class Library implements Comparable<Library> {
     public void addBook(Book book) {
         books.add(book);
     }
-
 
     public void scanBook(Book book) {
         scannedBooksList.add(book.getId());
@@ -160,7 +159,7 @@ public class Library implements Comparable<Library> {
     }
 
     public boolean isFinishedSigningUp(int currentDay) {
-        return currentDay - getStartDay() > getTimeToSignUp();
+        return currentDay - getStartDay() >= getTimeToSignUp();
     }
 
     public void startScanning() {

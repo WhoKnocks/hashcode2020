@@ -12,6 +12,7 @@ public class Main {
 
     private static int totalNumberOfDays;
     private static Map<Book, List<Library>> booksInLibrary = new HashMap<>();
+    private static int averageTimeToSignUp = 0;
 
     public static void main(String[] args) {
         System.out.println("Reading a");
@@ -39,34 +40,39 @@ public class Main {
     public static void run(String fileName) {
         List<List<Integer>> lines = IOUtil.getLines("src/input/" + fileName, " ", Integer::parseInt);
 
-        int index = 0;
         totalNumberOfDays = lines.get(0).get(2);
         lines.remove(0);
 
         HashMap<Integer, Book> books = new HashMap<>();
-
         List<Integer> booksList = lines.get(0);
         IntStream.range(0, booksList.size()).forEachOrdered(i -> books.put(i, Book.create(i, booksList.get(i))));
         lines.remove(0);
 
         Libraries libraries = new Libraries();
-        StreamSupport.stream(initLibraries(lines, books).spliterator(), false)
+        StreamSupport.stream(initLibraries(lines, books).spliterator(), true)
                 .filter(library -> library.getTimeToSignUp() < totalNumberOfDays)
                 .forEach(libraries::add);
+        for (Library library : libraries) {
+            averageTimeToSignUp += library.getTimeToSignUp();
+        }
+        averageTimeToSignUp /= libraries.size();
 
-        int currentLibraryCounter = 0;
-        Library currentLibrary = libraries.get(currentLibraryCounter);
+        Libraries notYetStartedLibraries = new Libraries();
+        for (Library library : libraries) {
+            notYetStartedLibraries.add(library);
+        }
+        Library currentLibrary = notYetStartedLibraries.getFirst();
+        notYetStartedLibraries.remove(0);
         Libraries startedLibraries = new Libraries();
         currentLibrary.startSignUp(0);
 
         for (int currentDay = 0; currentDay < totalNumberOfDays; currentDay++) {
-            if (totalNumberOfDays < currentLibrary.getTimeToSignUp() || totalNumberOfDays < currentDay + currentLibrary.getTimeToSignUp()) continue;
 
             if (currentLibrary.isFinishedSigningUp(currentDay)) {
                 currentLibrary.startScanning();
                 startedLibraries.add(currentLibrary);
-                currentLibraryCounter++;
-                currentLibrary = libraries.get(currentLibraryCounter);
+
+                currentLibrary = getNextValidLibrary(notYetStartedLibraries, currentDay);
                 currentLibrary.startSignUp(currentDay);
             }
             for (Library library : libraries) {
@@ -86,6 +92,20 @@ public class Main {
         OutputBuilder.buildOutput("src/output/" + fileName, result);
     }
 
+    private static Library getNextValidLibrary(Libraries notYetStartedLibraries, int currentDay) {
+        Library currentLibrary = null;
+        while (currentLibrary == null) {
+            if(notYetStartedLibraries.size() == 1) return notYetStartedLibraries.getFirst();
+            else {
+                if (notYetStartedLibraries.getFirst().getTimeToSignUp() < totalNumberOfDays - currentDay) {
+                    currentLibrary = notYetStartedLibraries.getFirst();
+                }
+                notYetStartedLibraries.remove(0);
+            }
+        }
+        return currentLibrary;
+    }
+
     private static Libraries initLibraries(List<List<Integer>> lines, HashMap<Integer, Book> books) {
         Libraries libraries = new Libraries();
         for (int i = 0; i < lines.size(); i++) {
@@ -102,7 +122,7 @@ public class Main {
                 library.addBook(books.get(x));
                 booksInLibrary.computeIfAbsent(book, b -> new ArrayList<Library>()).add(library);
             });
-            library.calcScorePerDay(false, getTotalNumberOfDays());
+            library.calcScorePerDay(averageTimeToSignUp);
         }
         return libraries;
     }
