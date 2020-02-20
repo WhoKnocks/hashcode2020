@@ -100,7 +100,6 @@ public class Library implements Comparable<Library> {
             Book book = books.get(0);
             scanBook(book);
             scannedBooks.add(book);
-            getBooks().remove(book);
         }
         if (getBooks().isEmpty()) setIsFinished();
         return scannedBooks;
